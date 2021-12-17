@@ -1,9 +1,13 @@
 #!/bin/bash
-# tables
+# parameter table_names
+
+# Metodo para mostrar el error
 print_error(){
     echo "Error: $1"
+    exit 1
 }
 
+# Plural en inglés para los nombre de las tablas
 table_name(){
     if [[ $1 =~ [aeiou]y$ ]]; then
         var="${1}s"
@@ -18,10 +22,12 @@ table_name(){
     else
         var="${1}s"
     fi
+
     echo $var
 }
 
-create_files(){
+# Crear archivo
+create_file(){
     name="$1"
     names_count=$(echo "$name" | grep -o "_" | wc -l)
     
@@ -40,6 +46,7 @@ create_files(){
     echo -e "<?php\nrequire_once 'controllers/${name}_controller.php';\n\nfunction ${method}ExecRoute()\n{\n\t\$controller = new ${class}Controller();\n\trequire_once 'routes.php';\n\texecRoute(\$controller);\n}" > "./routes/${name}_routes.php"
 }
 
+# Capitalizar palabras de un nombre
 capitalize(){
     IFS='_' read -ra word <<< "$1"
     for i in "${word[@]}"; do
@@ -48,10 +55,11 @@ capitalize(){
     echo $table_name
 }
 
+# Main
 if [[ -d "./controllers" && -d "./routes" ]]; then
     if [[ $* != 0 ]]; then
         for name in $@; do
-            create_files "$name"
+            create_file "$name"
         done
     else
         print_error "falta el nombre de los elementos a crear."
