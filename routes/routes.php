@@ -13,6 +13,7 @@ function execRoute($controller)
                 unset($post['petition']);
                 $data = $controller->getOneElement($post);
                 print json_encode($data);
+
             }else if ($post['petition'] == "insert") {
                 unset($post['petition']);
                 $data = $controller->insertData($post);
