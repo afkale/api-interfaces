@@ -42,6 +42,17 @@ class MainController
         }
     }
 
+    public function insertData($data)
+    {
+        try {
+            $command = $this->getDatabase()->getInstance()->getConnection()
+                ->prepare("INSERT INTO " . $this->getTable() . " VALUES " . implode(" = ?, ", array_keys($data)));
+            return array("status" => $command->execute(array_values($data)) ? 0 : -2);
+        } catch (PDOException $e) {
+            return array("status" => -1);
+        }
+    }
+
     public function getTable()
     {
         return $this->table;
