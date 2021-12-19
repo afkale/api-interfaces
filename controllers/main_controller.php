@@ -4,8 +4,8 @@ require_once 'database/database.php';
 class MainController
 {
     private $table;
-    private $idName = "id";
-
+    private $idName;
+    
     public function getOneElement($data)
     {
         $clause = "SELECT * FROM " . $this->getTable() . " WHERE " . implode(" = ? AND ", array_keys($data)) . " = ?";
