@@ -4,7 +4,4 @@
 ###### Una vez ejecutado este comando todos los objetos estarán preparados para ingresar cambiar y extraer datos.
 
 
-###### Podrás crear tantos archivos como quiera, el comando admite varios nombres separados entre ellos por espacios, también admite nombres compuestos separados por guiones bajos es decir *./roucon.sh "user" "student" "admin" "user_idiom"* lo cual creará soporte con la api para las tablas users, students, admins, users_idiom.
-
-
-<!-- -->
+###### Podrás crear tantos archivos como quiera, el comando admite varios nombres separados entre ellos por espacios, también admite nombres compuestos separados por guiones bajos es decir *./roucon.sh "user" "student" "admin" "user_idiom"*  lo cual creará soporte con la api para las tablas users, students, admins, users_idiom.

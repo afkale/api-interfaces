@@ -38,7 +38,7 @@ class MainController
                 ->prepare("UPDATE " . $this->getTable() . " SET " . implode(" = ?, ", array_keys($data)) . " = ? WHERE id = $id");
             return array("status" => $command->execute(array_values($data)) ? 0 : -2);
         } catch (PDOException $e) {
-            return array("status" => -1);
+            return array("status" => -1, "error" => $e);
         }
     }
 
@@ -46,10 +46,10 @@ class MainController
     {
         try {
             $command = $this->getDatabase()->getInstance()->getConnection()
-                ->prepare("INSERT INTO " . $this->getTable() . " VALUES " . implode(" = ?, ", array_keys($data)));
-            return array("status" => $command->execute(array_values($data)) ? 0 : -2);
+                ->prepare("INSERT INTO " . $this->getTable() . " ( " . implode(", ", array_keys($data)) ." ) VALUES ( '" .implode("', '", array_values($data)) ."' )");
+            return array("status" => $command->execute() ? 0 : -2);
         } catch (PDOException $e) {
-            return array("status" => -1);
+            return array("status" => -1, "error" => $e);
         }
     }
 
