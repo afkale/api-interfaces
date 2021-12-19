@@ -1,11 +1,12 @@
 <?php
 require_once 'controllers/main_controller.php';
 
-class UserController extends MainController
+class ExampleController extends MainController
 {
 	public function __construct()
 	{
-		$this->setTable("users");
+		# nombre de la tabla
+		$this->setTable("examples");
 		# id tabla
 		$this->setIdName("id");
 	}

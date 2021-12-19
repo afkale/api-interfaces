@@ -43,7 +43,7 @@ class MainController
 
 
     # PUT
-    # Metodo para actualizar los valores de un objeto en particular, utilizará el id como buscador del objeto en particular, le podemos 
+    # Metodo para actualizar los valores de un objeto en particular, utilizará el id como buscador del objeto en particular, le podemos
     # pasar como json uno o varios parametros.
     public function updateValues($data)
     {
@@ -65,7 +65,7 @@ class MainController
     {
         try {
             $command = $this->getDatabase()->getInstance()->getConnection()
-                ->prepare("INSERT INTO " . $this->getTable() . " ( " . implode(", ", array_keys($data)) ." ) VALUES ( '" .implode("', '", array_values($data)) ."' )");
+                ->prepare("INSERT INTO " . $this->getTable() . " ( " . implode(", ", array_keys($data)) . " ) VALUES ( '" . implode("', '", array_values($data)) . "' )");
             return array("status" => $command->execute() ? 0 : -2);
         } catch (PDOException $e) {
             return array("status" => -1, "error" => $e);
@@ -81,7 +81,7 @@ class MainController
     {
         $this->table = $table;
     }
-    
+
     public function getIdName()
     {
         return $this->idName;
