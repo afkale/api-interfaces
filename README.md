@@ -1,6 +1,5 @@
 # Funciones por defecto
 
-
 _getElement: Recibe un json con los parametros a filtrar y este devolvera un único objeto, lo suyo es utilizar la clave primaria del mismo para obtener un dato especifico._
 
 _getElements: Puede recibir un json con los datos por los que se quiere filtrar, en caso de que no reciba ningun dato mostrara todos los datos que coincidan, devolverá una lista de elementos._
