@@ -10,6 +10,8 @@ _insertData: Recibe todos los datos de un objeto y los inserta en la base de dat
 
 # Roucon
 
+_Roucon es un generador de controllers y routes, el cual creara los objetos necesarios y los añadira en las rutas del index._
+
 _Para utilizar la aplicacion debes posicionarte en un terminal y ejecutar:_
 
 ```
