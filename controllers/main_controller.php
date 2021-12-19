@@ -4,6 +4,7 @@ require_once 'database/database.php';
 class MainController
 {
     private $table;
+    private $idName = "id";
 
     public function getOneElement($data)
     {
@@ -31,11 +32,11 @@ class MainController
 
     public function updateValues($data)
     {
-        $id = $data['id'];
-        unset($data['id']);
+        $id = $data[$this->getIdName()];
+        unset($data[$this->getIdName()]);
         try {
             $command = $this->getDatabase()->getInstance()->getConnection()
-                ->prepare("UPDATE " . $this->getTable() . " SET " . implode(" = ?, ", array_keys($data)) . " = ? WHERE id = $id");
+                ->prepare("UPDATE " . $this->getTable() . " SET " . implode(" = ?, ", array_keys($data)) . " = ? WHERE " . $this->getIdName() . " = '$id'");
             return array("status" => $command->execute(array_values($data)) ? 0 : -2);
         } catch (PDOException $e) {
             return array("status" => -1, "error" => $e);
@@ -62,6 +63,17 @@ class MainController
     {
         $this->table = $table;
     }
+    
+    public function getIdName()
+    {
+        return $this->idName;
+    }
+
+    public function setIdName(string $idName)
+    {
+        $this->idName = $idName;
+    }
+
 
     public function getDatabase()
     {
