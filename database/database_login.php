@@ -1,5 +1,5 @@
 <?php
 define("HOSTNAME", "localhost");
-define("DATABASE", "innova");
+define("DATABASE", "VyTx1Fx0wk");
 define("USERNAME", "root");
 define("PASSWORD", "");

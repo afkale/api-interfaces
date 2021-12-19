@@ -14,7 +14,7 @@ table_name(){
     elif [[ $1 =~ (sh|s|x|z)$ ]]; then
         var=$(echo "$1" | sed -E 's/(sh|s|x|z)$/ies/g')
     elif [[ $1 =~ [^aeiou]y$ ]]; then
-        var=$(echo "$1" | sed -E 's/[^aeiou]y$/ties/g')
+        var=$(echo "$1" | sed -E 's/y$/ies/g')
     elif [[ $1 =~ o$ ]]; then
         var="${1}es"
     elif [[ $1 =~ e$ ]]; then
@@ -38,12 +38,17 @@ create_file(){
     else
         table=$(table_name "${name}")
     fi
+    if [[ ! -f "./controllers/${name}_controller.php" ]] && [[ ! -f "./routes/${name}_routes.php" ]]; then
+        class=$(capitalize "${name}")
+        method=$(echo "$class" | sed -E 's/^(\w)/\L&/g')
 
-    class=$(capitalize "${name}")
-    method=$(echo "$class" | sed -E 's/^(\w)/\L&/g')
-
-    echo -e "<?php\nrequire_once 'controllers/main_controller.php';\n\nclass ${class}Controller extends MainController\n{\n\tpublic function __construct()\n\t{\n\t\t\$this->setTable(\"${table}\");\n\t}\n}" > "./controllers/${name}_controller.php"
-    echo -e "<?php\nrequire_once 'controllers/${name}_controller.php';\n\nfunction ${method}ExecRoute()\n{\n\t\$controller = new ${class}Controller();\n\trequire_once 'routes.php';\n\texecRoute(\$controller);\n}" > "./routes/${name}_routes.php"
+        exec $(sed -i "s/# path/# path\nrequire_once '.\/routes\/${name}_routes.php';/" index.php)
+        exec $(sed -i "s/# method/# method\n\t\tcase '${name}':\n\t\t\t${method}ExecRoute();\n\t\t\tbreak; /" index.php)
+        echo -e "<?php\nrequire_once 'controllers/main_controller.php';\n\nclass ${class}Controller extends MainController\n{\n\tpublic function __construct()\n\t{\n\t\t\$this->setTable(\"${table}\");\n\t}\n}" > "./controllers/${name}_controller.php"
+        echo -e "<?php\nrequire_once 'controllers/${name}_controller.php';\n\nfunction ${method}ExecRoute()\n{\n\t\$controller = new ${class}Controller();\n\trequire_once 'routes.php';\n\texecRoute(\$controller);\n}" > "./routes/${name}_routes.php"
+    else
+        print_error "Los elementos que hacen referencia a ${name} ya fueron creados anteriormente."
+    fi
 }
 
 # Capitalizar palabras de un nombre
