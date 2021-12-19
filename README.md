@@ -22,7 +22,7 @@
 ./roucon student
 ```
 
-###### Podrás crear tantos archivos como quiera, el comando admite varios nombres separados entre ellos por espacios, también admite nombres compuestos separados por guiones bajos es decir:
+###### Podrás crear tantos archivos como quieras, el comando admite varios nombres separados entre ellos por espacios, también admite nombres compuestos separados por guiones bajos es decir:
 ```
 ./roucon.sh "user" "student" "admin" "user_idiom"
 ```
