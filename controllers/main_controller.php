@@ -14,7 +14,7 @@ class MainController
     # Metodo para recoger un unico elemento, en este caso necesitaras utilizar un parametro en el json que he designado como petition
     # para este metodo utilizaremos "petition" : "one_element" esto buscara entre todos los elementos de la tabla el que coincida con
     # todos los parametros que le pasamos por json.
-    public function getOneElement($data)
+    public function getElement($data)
     {
         $clause = "SELECT * FROM " . $this->getTable() . " WHERE " . implode(" = ? AND ", array_keys($data)) . " = ?";
         try {
