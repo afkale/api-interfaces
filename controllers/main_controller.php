@@ -6,6 +6,10 @@ class MainController
     private $table;
     private $idName;
     
+    # POST
+    # Metodo para recoger un unico elemento, en este caso necesitaras utilizar un parametro en el json que he designado como petition
+    # para este metodo utilizaremos "petition" : "one_element" esto buscara entre todos los elementos de la tabla el que coincida con
+    # todos los parametros que le pasamos por json.
     public function getOneElement($data)
     {
         $clause = "SELECT * FROM " . $this->getTable() . " WHERE " . implode(" = ? AND ", array_keys($data)) . " = ?";
@@ -18,6 +22,9 @@ class MainController
         }
     }
 
+    # POST
+    # Metodo para recoger todos los elementos de una tabla, podemos no pasarle ningun objeto como parametro o pasarle varios datos para
+    # que busque las coincidencias.
     public function getElements($data)
     {
         $clause = isset($data) ? " WHERE " . implode(" = ? AND ", array_keys($data)) . " = ?" : "";
@@ -30,6 +37,10 @@ class MainController
         }
     }
 
+
+    # PUT
+    # Metodo para actualizar los valores de un objeto en particular, utilizará el id como buscador del objeto en particular, le podemos 
+    # pasar como json uno o varios parametros.
     public function updateValues($data)
     {
         $id = $data[$this->getIdName()];
@@ -43,6 +54,9 @@ class MainController
         }
     }
 
+    # POST
+    # Metodo para insertar datos, para utilizar este datos volveremos a pasar un dato en el json que contenga "petition" : "insert" y los
+    # datos del objeto en particular para poder realizar la insercion correctamente.
     public function insertData($data)
     {
         try {
