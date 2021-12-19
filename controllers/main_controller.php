@@ -1,11 +1,15 @@
 <?php
 require_once 'database/database.php';
 
+# Aquí se encuentran los metodos genericos para todos los objetos, en caso de que uno de estos metodos no sea util para un objeto en
+# particular por pequeñas inconveniencias en la base de datos se debería pisar el metodo en la clase controller correspondiente al 
+# objeto para realizar un override.
+
 class MainController
 {
     private $table;
     private $idName;
-    
+
     # POST
     # Metodo para recoger un unico elemento, en este caso necesitaras utilizar un parametro en el json que he designado como petition
     # para este metodo utilizaremos "petition" : "one_element" esto buscara entre todos los elementos de la tabla el que coincida con
