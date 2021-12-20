@@ -1,8 +1,8 @@
 # Api
-_En el fichero database login se encuentran las credenciales para entrar a la base de datos_
+_En el fichero database login se encuentran las credenciales para entrar a la base de datos:_
 ```
 define("HOSTNAME", "localhost");
-define("DATABASE", "VyTx1Fx0wk");
+define("DATABASE", "database");
 define("USERNAME", "root");
 define("PASSWORD", "");
 ```
