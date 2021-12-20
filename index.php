@@ -76,7 +76,6 @@ if (isset($_GET['url'])) {
 			break; 
 		case 'college':
 			collegeExecRoute();
-			break; 
-
+			break;
     }
 }
