@@ -1,4 +1,13 @@
-# Funciones por defecto
+# Api
+_En el fichero database login se encuentran las credenciales para entrar a la base de datos_
+```
+define("HOSTNAME", "localhost");
+define("DATABASE", "VyTx1Fx0wk");
+define("USERNAME", "root");
+define("PASSWORD", "");
+```
+
+## Funciones por defecto
 
 _getElement: Recibe un json con los parametros a filtrar y este devolvera un único objeto, lo suyo es utilizar la clave primaria del mismo para obtener un dato especifico._
 
