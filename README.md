@@ -9,25 +9,28 @@ define("PASSWORD", "");
 
 ## Funciones por defecto
 
-_getElement: Recibe un json con los parametros a filtrar y este devolvera un único objeto, lo suyo es utilizar la clave primaria del mismo para obtener un dato especifico._
+_getElement: Recibe un json con los parámetros a filtrar y este devolvera un único objeto, lo suyo es utilizar la clave primaria del mismo para obtener un dato especifico._
 
-_getElements: Puede recibir un json con los datos por los que se quiere filtrar, en caso de que no reciba ningun dato mostrara todos los datos que coincidan, devolverá una lista de elementos._
+_getElements: Puede recibir un json con los datos por los que se quiere filtrar, en caso de que no reciba ningún dato mostrará todos los datos que coincidan, devolverá una lista de elementos._
 
-_updateValues: Recibe un id y unos valores que sustituiran los anteriores._
+_updateValues: Recibe un id y unos valores que sustituirán los anteriores._
 
 _insertData: Recibe todos los datos de un objeto y los inserta en la base de datos._
 
+## Funciones adicionales
+_Para introducir otras funciones adicionales, si son generales deberán ingresarse en el *main controller*, en caso de que sean especificas de algún objeto deberá ingresarse en el controller de dicho objeto._
+
 # Roucon
 
-_Roucon es un generador de controllers y routes, el cual creara los objetos necesarios y los añadira en las rutas del index._
+_Roucon es un generador de controllers y routes, el cual creara los objetos necesarios y los añadirá en las rutas del index._
 
-_Para utilizar la aplicacion debes posicionarte en un terminal y ejecutar:_
+_Para utilizar la aplicación debes posicionarte en un terminal y ejecutar:_
 
 ```
 ./roucon.sh "name"
 ```
 
-_La aplicacion esta diseñada para que los nombres coincidan con los nombres convencionales de una base de datos en ingles, es decir, si tu tabla en la base de datos se llama students el comando a introducir para que todos los datos sean conrrectos sera:_
+_La aplicacián esta diseñada para que los nombres coincidan con los nombres convencionales de una base de datos en ingles, es decir, si tu tabla en la base de datos se llama students el comando a introducir para que todos los datos sean correctos será:_
 
 ```
 ./roucon student
