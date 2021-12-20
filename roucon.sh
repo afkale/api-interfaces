@@ -4,7 +4,6 @@
 # Metodo para mostrar el error
 print_error() {
     echo "Error: $1"
-    exit 1
 }
 
 # Plural en inglés para los nombre de las tablas
