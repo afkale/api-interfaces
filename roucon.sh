@@ -4,7 +4,6 @@
 # Metodo para mostrar el error
 print_error() {
     echo "Error: $1"
-    exit 1
 }
 
 # Plural en inglés para los nombre de las tablas
@@ -68,9 +67,11 @@ if [[ -d "./controllers" && -d "./routes" ]]; then
         done
     else
         print_error "falta el nombre de los elementos a crear."
+        exit 1
     fi
 else
     print_error "comprueba que te encuentras en la carpeta correcta"
+    exit 1
 fi
 
 exit 0
