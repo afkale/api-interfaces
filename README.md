@@ -30,7 +30,7 @@ _Roucon es un generador de controllers y routes, el cual creara los objetos nece
 _Para utilizar la aplicación debes posicionarte en un terminal y ejecutar:_
 
 ```
-./roucon.sh "name"
+./roucon name
 ```
 
 _La aplicacián esta diseñada para que los nombres coincidan con los nombres convencionales de una base de datos en ingles, es decir, si tu tabla en la base de datos se llama students el comando a introducir para que todos los datos sean correctos será:_
@@ -42,7 +42,7 @@ _La aplicacián esta diseñada para que los nombres coincidan con los nombres co
 _Podrás crear tantos archivos como quieras, el comando admite varios nombres separados entre ellos por espacios, también admite nombres compuestos separados por guiones bajos es decir:_
 
 ```
-./roucon.sh "user" "student" "admin" "user_idiom"
+./roucon user student admin user_idiom
 ```
 
 _Por defecto todos los controllers se crearan con el id "id", dentro de cada uno de los controllers de los objetos encontraras el id por defecto y el nombre de la tabla por defecto._
