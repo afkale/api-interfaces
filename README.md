@@ -19,6 +19,8 @@ _updateValues: Recibe un id y unos valores que sustituirán los anteriores._
 
 _insertData: Recibe todos los datos de un objeto y los inserta en la base de datos._
 
+_removeData: Recibe todos los datos de un objeto y elimina todos los que coincidan con estos._
+
 ## Funciones adicionales
 
 _Para introducir otras funciones adicionales, si son generales deberán ingresarse en el *main controller*, en caso de que sean especificas de algún objeto deberá ingresarse en el controller de dicho objeto._
