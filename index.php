@@ -20,62 +20,62 @@ require_once './routes/credential_routes.php';
 require_once './routes/college_routes.php';
 
 if (isset($_GET['url'])) {
-    $args = explode('/', $_GET['url']);
-    switch ($args[0]) {
-            # method
+	$args = explode('/', $_GET['url']);
+	switch ($args[0]) {
+			# method
 		case 'work_experience':
 			workExperienceExecRoute();
-			break; 
+			break;
 		case 'vacant_enterprise':
 			vacantEnterpriseExecRoute();
-			break; 
+			break;
 		case 'vacant':
 			vacantExecRoute();
-			break; 
+			break;
 		case 'type_credential':
 			typeCredentialExecRoute();
-			break; 
+			break;
 		case 'study_student':
 			studyStudentExecRoute();
-			break; 
+			break;
 		case 'study':
 			studyExecRoute();
-			break; 
+			break;
 		case 'student':
 			studentExecRoute();
-			break; 
+			break;
 		case 'selection':
 			selectionExecRoute();
-			break; 
+			break;
 		case 'level_language':
 			levelLanguageExecRoute();
-			break; 
+			break;
 		case 'level_study':
 			levelStudyExecRoute();
-			break; 
+			break;
 		case 'language':
 			languageExecRoute();
-			break; 
+			break;
 		case 'idiom_vacant':
 			idiomVacantExecRoute();
-			break; 
+			break;
 		case 'idiom_student':
 			idiomStudentExecRoute();
-			break; 
+			break;
 		case 'idiom':
 			idiomExecRoute();
-			break; 
+			break;
 		case 'enterprise':
 			enterpriseExecRoute();
-			break; 
+			break;
 		case 'employment_contract':
 			employmentContractExecRoute();
-			break; 
+			break;
 		case 'credential':
 			credentialExecRoute();
-			break; 
+			break;
 		case 'college':
 			collegeExecRoute();
 			break;
-    }
+	}
 }

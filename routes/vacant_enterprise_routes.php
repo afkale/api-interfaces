@@ -11,6 +11,6 @@ function vacantEnterpriseExecRoute()
 		}
 	} else {
 		require_once 'routes.php';
-	execRoute($controller);
+		execRoute($controller);
 	}
 }
