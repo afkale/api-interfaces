@@ -1,8 +1,5 @@
 <?php
 # path
-require_once './routes/college_routes.php';
-require_once './routes/example_routes.php';
-require_once './routes/jeje_routes.php';
 require_once './routes/example_routes.php';
 
 if (isset($_GET['url'])) {
