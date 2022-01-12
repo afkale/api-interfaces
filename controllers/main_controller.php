@@ -5,7 +5,7 @@ require_once 'database/database.php';
 # particular por pequeñas inconveniencias en la base de datos se debería pisar el metodo en la clase controller correspondiente al 
 # objeto para realizar un override.
 
-class MainController
+abstract class MainController
 {
     private $table;
     private $idName;
