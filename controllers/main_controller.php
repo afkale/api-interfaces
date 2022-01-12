@@ -72,6 +72,19 @@ abstract class MainController
         }
     }
 
+    public function removeData($data) {
+        try {
+            $clause = isset($data) ? " WHERE " . implode(" = ? AND ", array_keys($data)) . " = ?" : "";
+            $command = $this->getDatabase()->getInstance()->getConnection()
+                ->prepare("DELETE FROM " . $this->getTable() . $clause);
+            return array("status" => $command->execute(array_values($data)) ? 0 : -2);
+
+
+        }catch(PDOException $e) {
+            return array("status" => -1, "error" => $e);
+        }
+    }
+
     public function getTable()
     {
         return $this->table;

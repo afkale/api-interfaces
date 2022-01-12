@@ -7,9 +7,9 @@ if (isset($_GET['url'])) {
 	define("POST", json_decode(file_get_contents('php://input'), true));
     switch ($args[0]) {
             # method
-		case 'examples':
+		  case 'examples':
 			exampleExecRoute();
 			break;
-
+		
     }
 }
