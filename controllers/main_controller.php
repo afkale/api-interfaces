@@ -22,7 +22,8 @@ abstract class MainController
             $command->execute(array_values($data));
             return $command->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            return $e;
+            return array("status" => -1, "error" => $e);
+
         }
     }
 
@@ -37,7 +38,8 @@ abstract class MainController
             $command->execute($data ? array_values($data) : []);
             return $command->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            return $e;
+            return array("status" => -1, "error" => $e);
+            
         }
     }
 
