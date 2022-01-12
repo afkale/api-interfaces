@@ -47,4 +47,6 @@ _Podrás crear tantos archivos como quieras, el comando admite varios nombres se
 ./roucon user student admin user_idiom
 ```
 
+_Si el nombre de una tabla es compuesto, debería asignarsele un nombre con la primera palabra en plural y la segunda en singular: sutudies_student, ya que en este caso la tabla haría referencia a una tabla que contiene todos los estudios que tiene cada uno de los estudiantes._
+
 _Por defecto todos los controllers se crearan con el id "id", dentro de cada uno de los controllers de los objetos encontraras el id por defecto y el nombre de la tabla por defecto._
