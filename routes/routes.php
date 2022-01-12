@@ -1,29 +1,26 @@
 <?php
-define("POST", json_decode(file_get_contents('php://input'), true));
 function execRoute($controller)
 {
     # Aquí se encuentran los metodos generales y globales, en este sitio sólo debería de haber metodos generales de cada uno de los objetos.
     # Los que son especificos de un objeto en particular se deberán posicionar en su routes correspondiente.
-    $post = POST;
+
     if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
         $data = $controller->updateValues(POST);
         print json_encode($data);
     } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (isset($post['petition'])) {
+        if (isset($_GET['petition'])) {
             # Aquellos metodos que comparten envio, se separan a traves de el parametro petition que será enviado a traves del json
             # por defecto los comunes son one_object e insert.
-            if ($post['petition'] == "one_object") {
-                unset($post['petition']);
-                $data = $controller->getElement($post);
+            if ($_GET['petition'] == "one_object") {
+                $data = $controller->getElement(POST);
                 print json_encode($data);
-            } else if ($post['petition'] == "insert") {
-                unset($post['petition']);
-                $data = $controller->insertData($post);
+            } else if ($_GET['petition'] == "insert") {
+                $data = $controller->insertData(POST);
             }
         } else {
             # Metodo por defecto del POST el cual no necesita recibir parametros para obtener datos, también filtrara en caso de que
             # reciba parametros que tengan que ver con la tabla relaccionada.
-            $data = $controller->getElements($post);
+            $data = $controller->getElements(POST);
             print json_encode($data);
         }
     }
