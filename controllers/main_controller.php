@@ -19,8 +19,8 @@ abstract class MainController
         $clause = "SELECT * FROM " . $this->getTable() . " WHERE " . implode(" = ? AND ", array_keys($data)) . " = ?";
         try {
             $command = $this->getDatabase()->getInstance()->getConnection()->prepare($clause);
-            $command->execute(array_values($data));
-            return $command->fetch(PDO::FETCH_ASSOC);
+            $preview = $command->fetch(PDO::FETCH_ASSOC);
+            return $preview ? $preview : NULL;
         } catch (PDOException $e) {
             return array("status" => -1, "error" => $e);
 
