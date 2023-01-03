@@ -16,14 +16,15 @@ abstract class MainController
     # todos los parametros que le pasamos por json.
     public function getElement($data)
     {
-        $clause = "SELECT * FROM " . $this->getTable() . " WHERE " . implode(" = ? AND ", array_keys($data)) . " = ?";
+        $data = array_keys($data) ? $data : null;
+        $clause = isset($data) ? " WHERE " . implode(" = ? AND ", array_keys($data)) . " = ?" : "";
         try {
-            $command = $this->getDatabase()->getInstance()->getConnection()->prepare($clause);
-            $preview = $command->fetch(PDO::FETCH_ASSOC);
-            return $preview ? $preview : NULL;
+            $command = $this->prepare("SELECT * FROM " . $this->getTable() . $clause);
+            $command->execute($data ? array_values($data) : null);
+            $result = $command->fetch(PDO::FETCH_ASSOC);
+            return $result ? $result : null;
         } catch (PDOException $e) {
             return array("status" => -1, "error" => $e);
-
         }
     }
 
@@ -34,12 +35,11 @@ abstract class MainController
     {
         $clause = isset($data) ? " WHERE " . implode(" = ? AND ", array_keys($data)) . " = ?" : "";
         try {
-            $command = $this->getDatabase()->getInstance()->getConnection()->prepare("SELECT * FROM " . $this->getTable() . $clause);
+            $command = $this->prepare("SELECT * FROM " . $this->getTable() . $clause);
             $command->execute($data ? array_values($data) : []);
             return $command->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return array("status" => -1, "error" => $e);
-            
         }
     }
 
@@ -52,8 +52,7 @@ abstract class MainController
         $id = $data[$this->getIdName()];
         unset($data[$this->getIdName()]);
         try {
-            $command = $this->getDatabase()->getInstance()->getConnection()
-                ->prepare("UPDATE " . $this->getTable() . " SET " . implode(" = ?, ", array_keys($data)) . " = ? WHERE " . $this->getIdName() . " = '$id'");
+            $command = $this->prepare("UPDATE " . $this->getTable() . " SET " . implode(" = ?, ", array_keys($data)) . " = ? WHERE " . $this->getIdName() . " = '$id'");
             return array("status" => $command->execute(array_values($data)) ? 0 : -2);
         } catch (PDOException $e) {
             return array("status" => -1, "error" => $e);
@@ -66,25 +65,27 @@ abstract class MainController
     public function insertData($data)
     {
         try {
-            $command = $this->getDatabase()->getInstance()->getConnection()
-                ->prepare("INSERT INTO " . $this->getTable() . " ( " . implode(", ", array_keys($data)) . " ) VALUES ( '" . implode("', '", array_values($data)) . "' )");
+            $command = $this->prepare("INSERT INTO " . $this->getTable() . " ( " . implode(", ", array_keys($data)) . " ) VALUES ( '" . implode("', '", array_values($data)) . "' )");
             return array("status" => $command->execute() ? 0 : -2);
         } catch (PDOException $e) {
             return array("status" => -1, "error" => $e);
         }
     }
 
-    public function removeData($data) {
+    public function removeData($data)
+    {
         try {
             $clause = isset($data) ? " WHERE " . implode(" = ? AND ", array_keys($data)) . " = ?" : "";
-            $command = $this->getDatabase()->getInstance()->getConnection()
-                ->prepare("DELETE FROM " . $this->getTable() . $clause);
+            $command = $this->prepare("DELETE FROM " . $this->getTable() . $clause);
             return array("status" => $command->execute(array_values($data)) ? 0 : -2);
-
-
-        }catch(PDOException $e) {
+        } catch (PDOException $e) {
             return array("status" => -1, "error" => $e);
         }
+    }
+
+    public function prepare($query)
+    {
+        return $this->getDatabase()->getInstance()->getConnection()->prepare($query);
     }
 
     public function getTable()
@@ -106,7 +107,6 @@ abstract class MainController
     {
         $this->idName = $idName;
     }
-
 
     public function getDatabase()
     {
