@@ -44,7 +44,7 @@ create_file() {
         exec $(sed -i "s/# path/# path\nrequire_once '.\/routes\/${name}_routes.php';/" index.php)
         exec $(sed -i "s/# method/# method\n\t\tcase '${table}':\n\t\t\t${method}ExecRoute(\$args);\n\t\t\tbreak;/" index.php)
         echo -e "<?php\nrequire_once 'controllers/main_controller.php';\n\nclass ${class}Controller extends MainController\n{\n\tpublic function __construct()\n\t{\n\t\t\$this->setTable(\"${table}\");\n\t\t# id tabla\n\t\t\$this->setIdName(\"id\");\n\t}\n}" >"./controllers/${name}_controller.php"
-        echo -e "<?php\nrequire_once 'controllers/${name}_controller.php';\n\nfunction ${method}ExecRoute(\$args)\n{\n\t\$controller = new ${class}Controller();\n\tif (isset(\$args[1]) && \$args[1] = 'object') {\n\t\tif (\$_SERVER['REQUEST_METHOD'] == 'POST') {\n\t\t} else if (\$_SERVER['REQUEST_METHOD'] == 'PUT') {\n\t\t}\n\t} else {\n\t\trequire_once 'routes.php';\n\t\texecRoute(\$controller, \$args);\n\t}\n}" >"./routes/${name}_routes.php"
+        echo -e "<?php\nrequire_once 'controllers/${name}_controller.php';\n\nfunction ${method}ExecRoute(\$args)\n{\n\t\$controller = new ${class}Controller();\n\tif (isset(\$args[1]) && \$args[1] == 'object') {\n\t\tif (\$_SERVER['REQUEST_METHOD'] == 'POST') {\n\t\t} else if (\$_SERVER['REQUEST_METHOD'] == 'PUT') {\n\t\t}\n\t} else {\n\t\trequire_once 'routes.php';\n\t\texecRoute(\$controller, \$args);\n\t}\n}" >"./routes/${name}_routes.php"
     else
         print_error "Los elementos que hacen referencia a ${name} ya fueron creados anteriormente."
     fi
