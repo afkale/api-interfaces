@@ -1,10 +1,10 @@
 <?php
 require_once 'controllers/example_controller.php';
 
-function exampleExecRoute()
+function exampleExecRoute($args)
 {
 	$controller = new ExampleController();
-	if (isset($_GET['option']) && $_GET['option'] = 'object') {
+	if (isset($args[1]) && $args[1] == 'object') {
 		# Aquí se filtraran todos los metodos que son especificos de este objeto en particular
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			# metodos POST
@@ -13,6 +13,6 @@ function exampleExecRoute()
 		}
 	} else {
 		require_once 'routes.php';
-		execRoute($controller);
+		execRoute($controller, $args);
 	}
 }
