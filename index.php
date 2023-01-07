@@ -8,7 +8,7 @@ if (isset($_GET['url'])) {
 	switch ($args[0]) {
 
 		case 'examples':
-			exampleExecRoute();
+			exampleExecRoute($args);
 			break;
 	}
 }

@@ -1,5 +1,5 @@
 <?php
-function execRoute($controller)
+function execRoute($controller, $args)
 {
     # Aquí se encuentran los metodos generales y globales, en este sitio sólo debería de haber metodos generales de cada uno de los objetos.
     # Los que son especificos de un objeto en particular se deberán posicionar en su routes correspondiente.
@@ -7,13 +7,13 @@ function execRoute($controller)
         $data = $controller->updateValues(POST);
         print json_encode($data);
     } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (isset($_GET['petition'])) {
+        if (isset($args[1])) {
             # Aquellos metodos que comparten envio, se separan a traves de el parametro petition que será enviado a traves del json
             # por defecto los comunes son one_object e insert.
-            if ($_GET['petition'] == "one_object") {
+            if ($args[1] == "one") {
                 $data = $controller->getElement(POST);
                 print json_encode($data);
-            } else if ($_GET['petition'] == "insert") {
+            } else if ($args[1] == "insert") {
                 $data = $controller->insertData(POST);
                 print json_encode($data);
             } 
