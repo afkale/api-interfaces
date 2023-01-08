@@ -37,7 +37,6 @@ abstract class MainController
         array_walk($data, function (&$value, $key) {
             $param = $this->filter($value, $key);
             print($param);
-
             array_push($params, $param);
         });
         $clause = implode(" AND ", $params);
@@ -45,7 +44,7 @@ abstract class MainController
         print(json_encode($params));
         try {
             $command = $this->prepare("SELECT * FROM " . $this->getTable() . $clause);
-            $command->execute($data ? array_values($data) : []);
+            $command->execute($data ? $this->values(array_values($data)) : []);
             return $command->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return array("status" => -1, "error" => $e);
@@ -94,8 +93,17 @@ abstract class MainController
 
     private function filter(&$value, $key)
     {
-        return is_array($value) ? $key . " IN (" . implode(", ", $value) . ")" : $key . " = ?";
+        return is_array($value) ? $key . " IN (" . implode(", ", array_map(fn($value) => "?", $value)) . ")" : $key . " = ?";
     }
+
+    private function values($values)
+    {
+        $result = array();
+        array_map(fn($value) => is_array($value) ? array_push($result, ...$value) : array_push($result, $value), $values);
+        return $result;
+    }
+
+
     public function prepare($query)
     {
         return $this->getDatabase()->getInstance()->getConnection()->prepare($query);
