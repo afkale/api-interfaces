@@ -36,11 +36,10 @@ abstract class MainController
         $params = [];
         array_walk($data, function (&$value, $key) {
             $param = $this->filter($value, $key);
-            print($param);
             array_push($params, $param);
         });
         $clause = implode(" AND ", $params);
-        print($clause);
+        print(json_encode($this->values(array_values($data))));
         print(json_encode($params));
         try {
             $command = $this->prepare("SELECT * FROM " . $this->getTable() . $clause);
