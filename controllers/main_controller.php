@@ -34,7 +34,7 @@ abstract class MainController
     public function getElements($data)
     {
         $params = [];
-        array_walk($data, function (&$key, $value) {
+        array_walk($data, function ($key, $value) {
             $param = $this->filter($key, $value);
             print($param);
             array_push($params, $param);
@@ -89,7 +89,7 @@ abstract class MainController
         }
     }
 
-    private function filter(&$key, $value)
+    private function filter($key, $value)
     {
         print($key);
         print($value);
