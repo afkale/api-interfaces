@@ -36,6 +36,8 @@ abstract class MainController
         $params = [];
         array_walk($data, function (&$value, $key) {
             $param = $this->filter($value, $key);
+            print($param);
+
             array_push($params, $param);
         });
         $clause = implode(" AND ", $params);
