@@ -39,8 +39,8 @@ abstract class MainController
             array_push($params, $param);
         });
         $clause = implode(" AND ", $params);
-        print($this->values(array_values($data)));
-        print($params);
+        print_r($this->values(array_values($data)));
+        print_r($params);
         try {
             $command = $this->prepare("SELECT * FROM " . $this->getTable() . $clause);
             $command->execute($data ? $this->values(array_values($data)) : []);
