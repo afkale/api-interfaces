@@ -98,7 +98,13 @@ abstract class MainController
     private function values($values)
     {
         $result = array();
-        array_map(fn($value) => is_array($value) ? array_push($result, ...$value) : array_push($result, $value), $values);
+        foreach($values as &$value){
+            if(is_array($value)){
+                array_push($result,...$value);
+            }else{
+                array_push($result,$value);
+            }
+        }
         print_r($result);
         return $result;
     }
