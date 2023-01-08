@@ -36,10 +36,10 @@ abstract class MainController
         $params = [];
         array_walk($data, function (&$value, $key) {
             $param = $this->filter($value, $key);
-            print($param);
             array_push($params, $param);
         });
         $clause = implode(" AND ", $params);
+        print($clause);
         try {
             $command = $this->prepare("SELECT * FROM " . $this->getTable() . $clause);
             $command->execute($data ? array_values($data) : []);
@@ -91,7 +91,7 @@ abstract class MainController
 
     private function filter(&$value, $key)
     {
-        return is_array($value) ? $key . " IN (" . implode(", ", $value) : $key . " = ?";
+        return is_array($value) ? $key . " IN (" . implode(", ", $value) . ")" : $key . " = ?";
     }
     public function prepare($query)
     {
