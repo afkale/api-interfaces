@@ -33,7 +33,7 @@ abstract class MainController
     # que busque las coincidencias.
     public function getElements($data)
     {
-        $params = [];
+        $params = array();
         array_walk($data, function (&$value, $key) {
             $param = $this->filter($value, $key);
             array_push($params, $param);
