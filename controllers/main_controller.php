@@ -40,6 +40,7 @@ abstract class MainController
         });
         $clause = implode(" AND ", $params);
         print($clause);
+        print(json_encode($params));
         try {
             $command = $this->prepare("SELECT * FROM " . $this->getTable() . $clause);
             $command->execute($data ? array_values($data) : []);
