@@ -91,8 +91,6 @@ abstract class MainController
 
     private function filter(&$value, $key)
     {
-        print($key);
-        print(json_encode($value));
         return is_array($value) ? $key . " IN (" . implode(", ", $value) : $key . " = ?";
     }
     public function prepare($query)
