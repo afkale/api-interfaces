@@ -37,6 +37,7 @@ abstract class MainController
             return $this->filter($key, $value);
         }) : [];
         $clause = implode(" AND ", $params);
+        print("hola");
         print($clause);
         try {
             $command = $this->prepare("SELECT * FROM " . $this->getTable() . $clause);
