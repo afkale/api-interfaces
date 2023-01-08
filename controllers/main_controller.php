@@ -34,8 +34,8 @@ abstract class MainController
     public function getElements($data)
     {
         $params = [];
-        array_walk($data, function (&$key, $value) {
-            $param = $this->filter($key, $value);
+        array_walk($data, function (&$value, $key) {
+            $param = $this->filter($value, $key);
             print($param);
             array_push($params, $param);
         });
@@ -89,10 +89,10 @@ abstract class MainController
         }
     }
 
-    private function filter(&$key, $value)
+    private function filter(&$value, $key)
     {
-        print(json_encode($key));
-        print($value);
+        print($key);
+        print(json_encode($value));
         return is_array($value) ? $key . " IN (" . implode(", ", $value) : $key . " = ?";
     }
     public function prepare($query)
