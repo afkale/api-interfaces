@@ -34,9 +34,10 @@ abstract class MainController
     public function getElements($data)
     {
         $params = isset($data) ? array_walk($data, function (&$key, $value) {
-            return $this->filter($key, $value); }) : [];
+            return $this->filter($key, $value);
+        }) : [];
         $clause = implode(" AND ", $params);
-        print $clause;
+        print($clause);
         try {
             $command = $this->prepare("SELECT * FROM " . $this->getTable() . $clause);
             $command->execute($data ? array_values($data) : []);
