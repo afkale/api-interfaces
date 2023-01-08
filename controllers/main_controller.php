@@ -34,7 +34,9 @@ abstract class MainController
     public function getElements($data)
     {
         $params = isset($data) ? array_walk($data, function (&$key, $value) {
-            return $this->filter($key, $value);
+            $param = $this->filter($key, $value);
+            print($param);
+            return $param;
         }) : [];
         $clause = implode(" AND ", $params);
         print("hola");
