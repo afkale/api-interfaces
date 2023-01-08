@@ -33,14 +33,13 @@ abstract class MainController
     # que busque las coincidencias.
     public function getElements($data)
     {
-        $params = isset($data) ? array_walk($data, function (&$key, $value) {
+        $params = [];
+        array_walk($data, function (&$key, $value) {
             $param = $this->filter($key, $value);
             print($param);
-            return $param;
-        }) : [];
+            array_push($params, $param);
+        });
         $clause = implode(" AND ", $params);
-        print("hola");
-        print($clause);
         try {
             $command = $this->prepare("SELECT * FROM " . $this->getTable() . $clause);
             $command->execute($data ? array_values($data) : []);
@@ -92,6 +91,8 @@ abstract class MainController
 
     private function filter(&$key, $value)
     {
+        print($key);
+        print($value);
         return is_array($value) ? $key . " IN (" . implode(", ", $value) : $key . " = ?";
     }
     public function prepare($query)
