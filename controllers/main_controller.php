@@ -1,19 +1,11 @@
 <?php
 require_once 'database/database.php';
 
-# Aquí se encuentran los metodos genericos para todos los objetos, en caso de que uno de estos metodos no sea util para un objeto en
-# particular por pequeñas inconveniencias en la base de datos se debería pisar el metodo en la clase controller correspondiente al 
-# objeto para realizar un override.
-
 abstract class MainController
 {
     private $table;
     private $idName;
 
-    # POST
-    # Metodo para recoger un unico elemento, se accede agregando "one" en la ruta
-    # esto buscara entre todos los elementos de la tabla el que coincida con
-    # todos los parametros que le pasamos por json.
     public function getElement($data)
     {
         $clause = $this->createClauses($data);
@@ -28,10 +20,6 @@ abstract class MainController
             return array("status" => -1, "error" => $e);
         }
     }
-
-    # POST
-    # Metodo para recoger todos los elementos de una tabla, podemos no pasarle ningun objeto como parametro o pasarle varios datos para
-    # que busque las coincidencias.
     public function getElements($data)
     {
         $clause = $this->createClauses($data);
@@ -46,10 +34,6 @@ abstract class MainController
         }
     }
 
-
-    # PUT
-    # Metodo para actualizar los valores de un objeto en particular, utilizará el id como buscador del objeto en particular, le podemos
-    # pasar como json uno o varios parametros.
     public function updateValues($data)
     {
         $id = $data[$this->getIdName()];
@@ -62,9 +46,6 @@ abstract class MainController
         }
     }
 
-    # POST
-    # Metodo para insertar datos, se accede agregando "insert" en la ruta y los
-    # datos del objeto en particular para poder realizar la insercion correctamente.
     public function insertData($data)
     {
         try {
@@ -137,7 +118,6 @@ abstract class MainController
         }
         return $result;
     }
-
 
     public function prepare($query)
     {
