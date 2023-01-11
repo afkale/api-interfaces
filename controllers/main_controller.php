@@ -16,11 +16,12 @@ abstract class MainController
     # todos los parametros que le pasamos por json.
     public function getElement($data)
     {
-        $data = array_keys($data) ? $data : null;
-        $clause = isset($data) ? " WHERE " . implode(" = ? AND ", array_keys($data)) . " = ?" : "";
+        $clause = $this->createClauses($data);
+        $query = "SELECT * FROM " . $this->getTable() . $clause;
+        $values = $this->extractValues(array_values($data));
         try {
-            $command = $this->prepare("SELECT * FROM " . $this->getTable() . $clause);
-            $command->execute($data ? array_values($data) : null);
+            $command = $this->prepare($query);
+            $command->execute($values);
             $result = $command->fetch(PDO::FETCH_ASSOC);
             return $result ? $result : null;
         } catch (PDOException $e) {
@@ -33,17 +34,12 @@ abstract class MainController
     # que busque las coincidencias.
     public function getElements($data)
     {
-        $params = array();
-        array_walk($data, function (&$value, $key) {
-            $param = $this->filter($value, $key);
-            array_push($params, $param);
-        });
-        $clause = implode(" AND ", $params);
-        print_r($this->values(array_values($data)));
-        print_r($params);
+        $clause = $this->createClauses($data);
+        $query = "SELECT * FROM " . $this->getTable() . $clause;
+        $values = $this->extractValues(array_values($data));
         try {
-            $command = $this->prepare("SELECT * FROM " . $this->getTable() . $clause);
-            $command->execute($data ? $this->values(array_values($data)) : []);
+            $command = $this->prepare($query);
+            $command->execute($values);
             return $command->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return array("status" => -1, "error" => $e);
@@ -90,22 +86,51 @@ abstract class MainController
         }
     }
 
-    private function filter(&$value, $key)
+    private function createClauses($data)
     {
-        return is_array($value) ? $key . " IN (" . implode(", ", array_map(fn($value) => "?", $value)) . ")" : $key . " = ?";
+        if (!$data)
+            return;
+        $result = [];
+        foreach ($data as $key => $value) {
+            $operator = $this->getOperator($key, $isFirst = count($result) == 0);
+            $param = is_array($value) ? $operator . " IN (" . implode(", ", array_map(fn($value) => "?", $value)) . ") " : $operator . " LIKE ?";
+            array_push($result, $param);
+        }
+        return " WHERE " . implode("", $result);
     }
 
-    private function values($values)
+    private function getOperator(string $key, $isFirst)
     {
-        $result = array();
-        foreach($values as &$value){
-            if(is_array($value)){
-                array_push($result,...$value);
-            }else{
-                array_push($result,$value);
+        if (!$this->containsAny($key, "|", "!"))
+            return $isFirst ? $key : " AND " . $key;
+        $clearedKey = str_replace(["|", "!"], "", $key);
+        $not = str_contains($key, "!");
+        $or = str_contains($key, "|");
+        return ($or ? " OR " : " AND ") . $clearedKey . ($not ? " NOT " : "");
+    }
+
+    private function containsAny(string $haystack, string...$needles)
+    {
+        foreach ($needles as $needle) {
+            if (str_contains($haystack, $needle)) {
+                return true;
             }
         }
-        print_r($result);
+        return false;
+    }
+
+    private function extractValues($values)
+    {
+        if (!$values)
+            return [];
+        $result = [];
+        foreach ($values as &$value) {
+            if (is_array($value)) {
+                array_push($result, ...$value);
+            } else {
+                array_push($result, $value);
+            }
+        }
         return $result;
     }
 
