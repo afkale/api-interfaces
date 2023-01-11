@@ -11,8 +11,8 @@ abstract class MainController
     private $idName;
 
     # POST
-    # Metodo para recoger un unico elemento, en este caso necesitaras utilizar un parametro en el json que he designado como petition
-    # para este metodo utilizaremos "petition" : "one_element" esto buscara entre todos los elementos de la tabla el que coincida con
+    # Metodo para recoger un unico elemento, se accede agregando "one" en la ruta
+    # esto buscara entre todos los elementos de la tabla el que coincida con
     # todos los parametros que le pasamos por json.
     public function getElement($data)
     {
@@ -36,7 +36,7 @@ abstract class MainController
     {
         $clause = $this->createClauses($data);
         $query = "SELECT * FROM " . $this->getTable() . $clause;
-        $values = $this->extractValues(array_values($data));
+        $values = $this->extractValues($data);
         try {
             $command = $this->prepare($query);
             $command->execute($values);
@@ -63,7 +63,7 @@ abstract class MainController
     }
 
     # POST
-    # Metodo para insertar datos, para utilizar este datos volveremos a pasar un dato en el json que contenga "petition" : "insert" y los
+    # Metodo para insertar datos, se accede agregando "insert" en la ruta y los
     # datos del objeto en particular para poder realizar la insercion correctamente.
     public function insertData($data)
     {
@@ -77,10 +77,13 @@ abstract class MainController
 
     public function removeData($data)
     {
+        $clause = $this->createClauses($data);
+        $query = "DELETE FROM " . $this->getTable() . $clause;
+        $values = $this->extractValues(array_values($data));
         try {
-            $clause = isset($data) ? " WHERE " . implode(" = ? AND ", array_keys($data)) . " = ?" : "";
-            $command = $this->prepare("DELETE FROM " . $this->getTable() . $clause);
-            return array("status" => $command->execute(array_values($data)) ? 0 : -2);
+            $command = $this->prepare($query);
+            $result = $command->execute($values);
+            return array("status" => $result ? 0 : -2);
         } catch (PDOException $e) {
             return array("status" => -1, "error" => $e);
         }
@@ -101,9 +104,9 @@ abstract class MainController
 
     private function getOperator(string $key, $isFirst)
     {
-        if (!$this->containsAny($key, "|", "!"))
-            return $isFirst ? $key : " AND " . $key;
         $clearedKey = str_replace(["|", "!"], "", $key);
+        if (!$this->containsAny($key, "|", "!") || $isFirst)
+            return $isFirst ? $clearedKey : " AND " . $clearedKey;
         $not = str_contains($key, "!");
         $or = str_contains($key, "|");
         return ($or ? " OR " : " AND ") . $clearedKey . ($not ? " NOT " : "");
@@ -124,6 +127,7 @@ abstract class MainController
         if (!$values)
             return [];
         $result = [];
+        $values = array_values($values);
         foreach ($values as &$value) {
             if (is_array($value)) {
                 array_push($result, ...$value);
