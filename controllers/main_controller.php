@@ -6,6 +6,8 @@ abstract class MainController
     private $table;
     private $idName;
 
+    private $database;
+
     public function getElement($data)
     {
         $clause = $this->createClauses($data);
