@@ -4,4 +4,4 @@ define("HOSTNAME", "localhost");
 define("DATABASE", "database");
 define("USERNAME", "root");
 define("PASSWORD", "");
-define("PORT", "3360");
+define("PORT", "3306");
